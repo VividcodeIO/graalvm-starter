@@ -6,11 +6,12 @@ import org.graalvm.polyglot.HostAccess.Export;
 public class JsHostAccess {
 
   public static void main(String[] args) {
-    Context context = Context.create();
-    Pointer pointer = new Pointer(0, 0);
-    context.getBindings("js").putMember("pointer", pointer);
-    Pointer movedPointer = context.eval("js", "pointer.move(1, 1)").as(Pointer.class);
-    System.out.println(movedPointer);
+    try (Context context = Context.create()) {
+      Pointer pointer = new Pointer(0, 0);
+      context.getBindings("js").putMember("pointer", pointer);
+      Pointer movedPointer = context.eval("js", "pointer.move(1, 1)").as(Pointer.class);
+      System.out.println(movedPointer);
+    }
   }
 
   public static class Pointer {
